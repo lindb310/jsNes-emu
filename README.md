@@ -1,7 +1,7 @@
-JSNES
+jsNes-engine
 =====
 
-A JavaScript NES emulator.
+A JavaScript based Nintendo emulator, heavily adapted from [jsnes](https://github.com/bfirsh/jsnes).
 
 Build
 -----
@@ -22,4 +22,3 @@ Benchmark
 
 The benchmark in ``test/benchmark.js`` is intended for testing JavaScript 
 engines. It does not depend on a DOM or Canvas element etc.
-
