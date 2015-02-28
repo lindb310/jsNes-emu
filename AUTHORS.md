@@ -1,4 +1,9 @@
-Authors
+Authors - jsNes-engine (mod of jsnes)
+=======
+
+ * Jeff Lindblom
+
+Authors - jsnes (original source)
 =======
 
  * Ben Firshman
