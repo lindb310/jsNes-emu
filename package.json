@@ -1,10 +1,10 @@
 {
-  "name": "jsnes",
-  "version": "0.0.0",
-  "description": "A JavaScript NES emulator",
+  "name": "jsnes-mod",
+  "version": "1.0.0",
+  "description": "A JavaScript NES emulator (jsnes) - Modified",
   "repository": {
     "type": "git",
-    "url": "git://github.com/bfirsh/jsnes.git"
+    "url": "git://github.com/lindb310/jsnes.git"
   },
   "license": "BSD",
   "devDependencies": {
