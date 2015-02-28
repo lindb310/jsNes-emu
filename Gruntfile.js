@@ -3,19 +3,19 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concat: {
             source: {
-                src: ["source/nes.js", "source/utils.js", "source/cpu.js", "source/keyboard.js", "source/mappers.js", "source/papu.js", "source/ppu.js", "source/rom.js", "source/ui.js"],
+                src: ["lib/jquery/jquery.min.js", "lib/dynamicaudio/swfobject.js", "lib/dynamicaudio/dynamicaudio.js", "source/nes.js", "source/utils.js", "source/cpu.js", "source/keyboard.js", "source/mappers.js", "source/papu.js", "source/ppu.js", "source/rom.js", "source/ui.js"],
                 dest: "build/jsnes.js"
-            },
-            uglify: {
-                source: {
-                    src: "build/jsnes.js",
-                    dest: "build/jsnes.min.js"
-                }
-            },
-            jshint: {
-                source: {
-                    src: "source/*.js"
-                }
+            }
+        },
+        uglify: {
+            source: {
+                src: "build/jsnes.js",
+                dest: "build/jsnes.min.js"
+            }
+        },
+        jshint: {
+            source: {
+                src: "source/*.js"
             }
         }
     });
