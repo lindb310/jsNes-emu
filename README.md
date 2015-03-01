@@ -1,4 +1,4 @@
-jsNes-engine
+jsNes-emu
 =====
 
 A JavaScript based Nintendo emulator, heavily adapted from [jsnes](https://github.com/bfirsh/jsnes).
