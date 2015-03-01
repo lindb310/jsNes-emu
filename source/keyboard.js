@@ -1,6 +1,7 @@
 /*
-JSNES, based on Jamie Sanders' vNES
+jsNes-engine, heavily adapted from Ben Firshman's JSNES
 Copyright (C) 2010 Ben Firshman
+Copyright (C) 2015 Jeff Lindblom
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
