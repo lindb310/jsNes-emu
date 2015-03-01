@@ -6,7 +6,7 @@ A JavaScript based Nintendo emulator, heavily adapted from [jsnes](https://githu
 Build
 -----
 
-To build a distribution, you will [Grunt](http://gruntjs.com):
+To build a distribution, you will need [Grunt](http://gruntjs.com):
 
     $ sudo npm install -g grunt-cli
 
