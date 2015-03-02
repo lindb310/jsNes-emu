@@ -32,7 +32,6 @@ define(function() {
         this.REG_SP = null;
         this.REG_PC = null;
         this.REG_PC_NEW = null;
-        this.REG_STATUS = null;
         this.F_CARRY = null;
         this.F_DECIMAL = null;
         this.F_INTERRUPT = null;
@@ -41,12 +40,10 @@ define(function() {
         this.F_SIGN = null;
         this.F_ZERO = null;
         this.F_NOTUSED = null;
-        this.F_NOTUSED_NEW = null;
         this.F_BRK = null;
         this.F_BRK_NEW = null;
         this.opdata = null;
         this.cyclesToHalt = null;
-        this.crash = null;
         this.irqRequested = null;
         this.irqType = null;
 
@@ -67,14 +64,14 @@ define(function() {
                 this.mem[i] = 0xFF;
             }
             for (var p = 0; p < 4; p++) {
-                var i = p * 0x800;
-                this.mem[i + 0x008] = 0xF7;
-                this.mem[i + 0x009] = 0xEF;
-                this.mem[i + 0x00A] = 0xDF;
-                this.mem[i + 0x00F] = 0xBF;
+                var j = p * 0x800;
+                this.mem[j + 0x008] = 0xF7;
+                this.mem[j + 0x009] = 0xEF;
+                this.mem[j + 0x00A] = 0xDF;
+                this.mem[j + 0x00F] = 0xBF;
             }
-            for (var i = 0x2001; i < this.mem.length; i++) {
-                this.mem[i] = 0;
+            for (var h = 0x2001; h < this.mem.length; h++) {
+                this.mem[h] = 0;
             }
 
             // CPU Registers:
@@ -86,8 +83,6 @@ define(function() {
             // Reset Program counter:
             this.REG_PC = 0x8000 - 1;
             this.REG_PC_NEW = 0x8000 - 1;
-            // Reset Status register:
-            this.REG_STATUS = 0x28;
 
             this.setStatus(0x28);
 
@@ -101,15 +96,11 @@ define(function() {
             this.F_ZERO = 1;
 
             this.F_NOTUSED = 1;
-            this.F_NOTUSED_NEW = 1;
             this.F_BRK = 1;
             this.F_BRK_NEW = 1;
 
             this.opdata = new CPU.OpData().opdata;
             this.cyclesToHalt = 0;
-
-            // Reset crash flag:
-            this.crash = false;
 
             // Interrupt notification:
             this.irqRequested = false;
@@ -1365,7 +1356,7 @@ define(function() {
         fromJSON: function(s) {
             JSNES.Utils.fromJSON(this, s);
         }
-    }
+    };
 
 // Generates and provides an array of details about instructions
     CPU.OpData = function() {
@@ -1640,26 +1631,6 @@ define(function() {
         // TYA:
         this.setOp(this.INS_TYA, 0x98, this.ADDR_IMP, 1, 2);
 
-        this.cycTable = new Array(
-            /*0x00*/ 7, 6, 2, 8, 3, 3, 5, 5, 3, 2, 2, 2, 4, 4, 6, 6,
-            /*0x10*/ 2, 5, 2, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7,
-            /*0x20*/ 6, 6, 2, 8, 3, 3, 5, 5, 4, 2, 2, 2, 4, 4, 6, 6,
-            /*0x30*/ 2, 5, 2, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7,
-            /*0x40*/ 6, 6, 2, 8, 3, 3, 5, 5, 3, 2, 2, 2, 3, 4, 6, 6,
-            /*0x50*/ 2, 5, 2, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7,
-            /*0x60*/ 6, 6, 2, 8, 3, 3, 5, 5, 4, 2, 2, 2, 5, 4, 6, 6,
-            /*0x70*/ 2, 5, 2, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7,
-            /*0x80*/ 2, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 2, 4, 4, 4, 4,
-            /*0x90*/ 2, 6, 2, 6, 4, 4, 4, 4, 2, 5, 2, 5, 5, 5, 5, 5,
-            /*0xA0*/ 2, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 2, 4, 4, 4, 4,
-            /*0xB0*/ 2, 5, 2, 5, 4, 4, 4, 4, 2, 4, 2, 4, 4, 4, 4, 4,
-            /*0xC0*/ 2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4, 6, 6,
-            /*0xD0*/ 2, 5, 2, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7,
-            /*0xE0*/ 2, 6, 3, 8, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4, 6, 6,
-            /*0xF0*/ 2, 5, 2, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7
-        );
-
-
         this.instname = new Array(56);
 
         // Instruction Names:
@@ -1719,23 +1690,7 @@ define(function() {
         this.instname[53] = "TXA";
         this.instname[54] = "TXS";
         this.instname[55] = "TYA";
-
-        this.addrDesc = new Array(
-            "Zero Page           ",
-            "Relative            ",
-            "Implied             ",
-            "Absolute            ",
-            "Accumulator         ",
-            "Immediate           ",
-            "Zero Page,X         ",
-            "Zero Page,Y         ",
-            "Absolute,X          ",
-            "Absolute,Y          ",
-            "Preindexed Indirect ",
-            "Postindexed Indirect",
-            "Indirect Absolute   "
-        );
-    }
+    };
 
     CPU.OpData.prototype = {
         INS_ADC: 0,
