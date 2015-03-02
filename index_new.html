@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>JSNES: A JavaScript NES emulator</title>
+    <script src="lib/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/requirejs/requirejs-min.js"></script>
+</head>
+
+<body>
+<h1>JSNES</h1>
+
+<div id="emulator">
+    <div>
+        <canvas id="nes-screen" width="256" height="240"></canvas>
+        <div class="nes-roms"><select>
+            <option>Select a ROM...</option>
+            <optgroup label="Homebrew">
+                <option value="roms/croom/croom.nes">Concentration Room</option>
+                <option value="roms/lj65/lj65.nes">LJ65</option>
+            </optgroup>
+            <optgroup label="Working">
+                <option value="local-roms/Bubble Bobble (U).nes">Bubble Bobble</option>
+                <option value="local-roms/Contra (U) [!].nes">Contra</option>
+                <option value="local-roms/Donkey Kong (JU).nes">Donkey Kong</option>
+                <option value="local-roms/Dr. Mario (JU).nes">Dr. Mario</option>
+                <option value="local-roms/Golf (JU).nes">Golf</option>
+                <option value="local-roms/Legend of Zelda, The (U) (PRG1).nes">The Legend of Zelda</option>
+                <option value="local-roms/Lemmings (U).nes">Lemmings</option>
+                <option value="local-roms/Lifeforce (U).nes">Lifeforce</option>
+                <option value="local-roms/Mario Bros. (JU) [!].nes">Mario Bros.</option>
+                <option value="local-roms/Mega Man (U).nes">Mega Man</option>
+                <option value="local-roms/Pac-Man (U) [!].nes">Pac-Man</option>
+                <option value="local-roms/Super Mario Bros. (JU) (PRG0) [!].nes">Super Mario Bros.</option>
+                <option value="local-roms/Tennis (JU) [!].nes">Tennis</option>
+                <option value="local-roms/Tetris (U) [!].nes">Tetris</option>
+                <option value="local-roms/Tetris 2 (U) [!].nes">Tetris 2</option>
+                <option value="local-roms/Zelda II - The Adventure of Link (U).nes">Zelda II - The Adventure of
+                    Link
+                </option>
+            </optgroup>
+            <optgroup label="Nearly Working">
+                <option value="local-roms/Duck Hunt (JUE) [!].nes">Duck Hunt</option>
+                <option value="local-roms/Super Mario Bros. 3 (U) (PRG1) [!].nes">Super Mario Bros. 3</option>
+            </optgroup>
+        </select></div>
+        <div class="nes-controls"><input type="button" value="pause" class="nes-pause" disabled="disabled"><input
+                type="button" value="restart" class="nes-restart" disabled="disabled"><input type="button"
+                                                                                             value="enable sound"
+                                                                                             class="nes-enablesound"><input
+                type="button" value="zoom in" class="nes-zoom"></div>
+        <p class="nes-status">Ready to load a ROM.</p></div>
+</div>
+
+<h2>Controls</h2>
+<table id="controls">
+    <tr>
+        <th>Button</th>
+        <th>Player 1</th>
+        <th>Player 2</th>
+    </tr>
+    <tr>
+        <td>Left</td>
+        <td>Left</td>
+        <td>Num-4</td>
+    <tr>
+        <td>Right</td>
+        <td>Right</td>
+        <td>Num-6</td>
+    </tr>
+    <tr>
+        <td>Up</td>
+        <td>Up</td>
+        <td>Num-8</td>
+    </tr>
+    <tr>
+        <td>Down</td>
+        <td>Down</td>
+        <td>Num-2</td>
+    </tr>
+    <tr>
+        <td>A</td>
+        <td>X</td>
+        <td>Num-7</td>
+    </tr>
+    <tr>
+        <td>B</td>
+        <td>Z/Y</td>
+        <td>Num-9</td>
+    </tr>
+    <tr>
+        <td>Start</td>
+        <td>Enter</td>
+        <td>Num-1</td>
+    </tr>
+    <tr>
+        <td>Select</td>
+        <td>Ctrl</td>
+        <td>Num-3</td>
+    </tr>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+    requirejs.config({
+        baseUrl: './',
+        paths: {
+            'DynamicAudio': './lib/dynamicaudio/dynamicaudio-min'
+        },
+        shim: {
+            'DynamicAudio': {
+                exports: 'DynamicAudio'
+            }
+        }
+    });
+    requirejs(['source/nes'], function(JSNES) {
+        window.jsNes = new JSNES('nes-screen');
+        jsNes.ui.loadROM('roms/croom/croom.nes');
+    });
+</script>
+<!--[if IE]>
+<script type="text/vbscript" src="source/jsnes-ie-hacks.vbscript"></script>
+<![endif]-->
+
+</body>
+</html>
